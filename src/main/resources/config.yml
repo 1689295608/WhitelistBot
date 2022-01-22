@@ -44,6 +44,18 @@ active-settings:
     reloading-plugin: "§4正在关闭插件，你还没有登录!"
     player-join-game: "§a玩家 §e%s§a 加入了游戏!"
     player-quit-game: "§e玩家 §e%s§e 离开了游戏..."
+  # 登录地点
+  login-warp:
+    # 启用
+    enabled: true
+    # 地点
+    location:
+      world: world
+      yaw: 0
+      pitch: 0
+      x: 0
+      y: 0
+      z: 0
   # 启用机器人的 QQ 群
   enabled-groups:
     - 0
