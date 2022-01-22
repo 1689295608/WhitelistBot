@@ -1,0 +1,55 @@
+# WhitelistBot 配置文件
+
+bot-settings:
+  # 机器人 QQ
+  qq: 0
+  # 机器人密码
+  password: ""
+  # 主人 QQ，可以执行高级操作
+  admins:
+    - 0
+active-settings:
+  # 玩家昵称规范 (正则表达式)
+  player-name: "[a-zA-Z0-9_]{3,14}"
+  # 群命令前缀
+  command-prefix: "#"
+  # 群聊命令
+  commands:
+    request-whitelist: "申请白名单"
+    unbind-whitelist: "解绑"
+    confirm-ip: "验证"
+  # 提示信息
+  languages:
+    disallow-player-name: "&4玩家昵称只能包含大小写字母、数字和下划线，并且昵称长度必须在 3 到 14 之间!"
+    plugin-not-loaded: "服务器还没加载完成，请稍后再试!"
+    player-already-online: "§4玩家 %s 已经在线了!"
+    no-whitelist: "§4您尚未申请白名单，请添加 QQ 群申请白名单!"
+    unsafe-confirm: "§4本次登录需要安全校验，请在群内发送 \"#验证 %d\" 进行安全验证!"
+    already-registered: "§4您已经注册过了!"
+    register-usage: "§e语法: §f/reg §7<密码> <再次输入密码>"
+    password-not-same: "§4两次输入的密码不相同!"
+    fail-register: "§4注册失败，请联系管理员咨询问题!"
+    succeed-register: "§a注册成功!"
+    not-registered: "§4您还没有注册过呢!"
+    already-login: "§a您已经登录过了，无需再次登录!"
+    login-usage: "§e语法: §f/l §7<密码>"
+    fail-login: "§4登录失败，请联系管理员咨询问题!"
+    wrong-password: "§4登录失败，密码错误!"
+    succeed-login: "§a登录成功!"
+    removed-whitelist: "§4您已被移出白名单!"
+    login-message: "§e请使用 §f/l §7<密码> §e来登录!"
+    register-message: "§e请使用 §f/reg §7<密码> <再次输入密码> §e来登录!"
+    safe-login: "§a已成功通过免密登录，您可以直接游玩!"
+    timed-out-login: "§4登录超时，请重新进入游戏!"
+    reloading-plugin: "§4正在关闭插件，你还没有登录!"
+    player-join-game: "§a玩家 §e%s§a 加入了游戏!"
+    player-quit-game: "§e玩家 §e%s§e 离开了游戏..."
+  # 启用机器人的 QQ 群
+  enabled-groups:
+    - 0
+  # 转发游戏聊天的 QQ 群
+  share-groups:
+    - 0
+  # 联动游戏的 QQ 群
+  link-groups:
+    - 0

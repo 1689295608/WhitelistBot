@@ -1,0 +1,12 @@
+name: WhitelistBot
+main: windowx.minecraft.plugin.WhitelistBot
+version: 1.0
+depend:
+  - MiraiCore
+commands:
+  wb:
+    usage: /wb <args>
+  l:
+    usage: /l <密码>
+  reg:
+    uasge: /reg <密码> <再次输入密码>
