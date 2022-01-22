@@ -5,6 +5,8 @@ import net.mamoe.mirai.BotFactory;
 import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.utils.BotConfiguration;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.ConfigurationSection;
@@ -21,6 +23,7 @@ import java.util.logging.Logger;
 
 public class WhitelistBot extends JavaPlugin {
     public static Bot bot;
+    public static Location loginLoc = null;
     public static boolean isLoaded = false;
     public static List<Long> allowedGroup;
     public static FileConfiguration config;
@@ -180,6 +183,36 @@ public class WhitelistBot extends JavaPlugin {
             CONFIRM_IP = commands.getString("confirm-ip");
         }
         allowedGroup = active.getLongList("enabled-groups");
+
+        try {
+            ConfigurationSection loginWarp = active.getConfigurationSection("login-warp");
+            if (loginWarp == null) {
+                throw new OtherException("登录点配置不存在");
+            }
+            boolean enabled = loginWarp.getBoolean("enabled");
+            if (!enabled) {
+                throw new NothingException();
+            }
+            ConfigurationSection location = loginWarp.getConfigurationSection("location");
+            if (location == null) {
+                throw new OtherException("登录点不存在");
+            }
+            double x = location.getDouble("x");
+            double y = location.getDouble("y");
+            double z = location.getDouble("z");
+            float yaw = (float) location.getDouble("yaw");
+            float pitch = (float) location.getDouble("pitch");
+            String strworld = location.getString("world");
+            if (strworld == null) {
+                throw new OtherException("登录点世界不存在");
+            }
+            World world = Bukkit.getWorld(strworld);
+            loginLoc = new Location(world, x, y, z, yaw, pitch);
+        } catch (OtherException e) {
+            logger.warning("§4登录点加载异常，因为：" + e.getLocalizedMessage());
+        } catch (NothingException ignored) {
+
+        }
 
         ConfigurationSection botConfig = config.getConfigurationSection("bot-settings");
         if (botConfig == null) {
