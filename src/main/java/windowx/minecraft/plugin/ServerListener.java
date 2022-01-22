@@ -1,5 +1,7 @@
 package windowx.minecraft.plugin;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -27,6 +29,7 @@ public class ServerListener implements Listener {
     public static HashMap<Integer, String> codeIp = new HashMap<>();
     public static HashMap<String, Long> lastTime = new HashMap<>();
     public static HashMap<String, TimerTask> messages = new HashMap<>();
+    public static HashMap<String, Location> loginLoc = new HashMap<>();
 
     @EventHandler
     public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
@@ -110,6 +113,10 @@ public class ServerListener implements Listener {
         String name = player.getName();
 
         event.setJoinMessage(WhitelistBot.getLanguagef("player-join-game", name));
+
+        Location loc = player.getLocation();
+        loginLoc.put(name, loc);
+        player.teleport(WhitelistBot.loginLoc);
 
         // TODO: 正版玩家直接免密登录
 
@@ -312,5 +319,10 @@ public class ServerListener implements Listener {
         if (message != null) {
             message.cancel();
         }
+        Player player = Bukkit.getPlayer(name);
+        if (player == null) return;
+        Location backLoc = loginLoc.get(name);
+        if (backLoc == null) return;
+        player.teleport(backLoc);
     }
 }
