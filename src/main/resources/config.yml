@@ -12,16 +12,16 @@ bot-settings:
 active-settings:
   # 玩家昵称规范 (正则表达式)
   player-name: "[a-zA-Z0-9_]{3,14}"
-  
+
   # 群命令前缀
   command-prefix: "#"
-  
+
   # 群聊命令
   commands:
     request-whitelist: "申请白名单"
     unbind-whitelist: "解绑"
     confirm-ip: "验证"
-  
+
   # 免密登录相关
   none-password-login:
     # 是否启用
@@ -33,24 +33,27 @@ active-settings:
       - "192.(.*)"
       - "172.(.*)"
       - "10.(.*)"
-  
+
   # 未登录允许使用的命令
   no-login-allow-commands:
     - "reg"
     - "l"
-  
+
+  # 是否启用异地登陆保护
+  enable-safe-ip: true
+
   # 启用机器人的 QQ 群
   enabled-groups:
     - 0
-  
+
   # 转发游戏聊天的 QQ 群 (未完成)
   share-groups:
     - 0
-  
+
   # 联动游戏的 QQ 群 (未完成)
   link-groups:
     - 0
-  
+
   # 登录地点
   login-warp:
     # 启用
@@ -63,7 +66,7 @@ active-settings:
       x: 0
       y: 0
       z: 0
-  
+
   # 提示信息
   languages:
     disallow-player-name: "&4玩家昵称只能包含大小写字母、数字和下划线，并且昵称长度必须在 3 到 14 之间!"
