@@ -67,6 +67,10 @@ active-settings:
       y: 0
       z: 0
 
+  # QQ 黑名单
+  banned-qq:
+    - 0
+
   # 提示信息
   languages:
     disallow-player-name: "&4玩家昵称只能包含大小写字母、数字和下划线，并且昵称长度必须在 3 到 14 之间!"
@@ -93,3 +97,17 @@ active-settings:
     reloading-plugin: "§4正在关闭插件，你还没有登录!"
     player-join-game: "§a玩家 §e%s§a 加入了游戏!"
     player-quit-game: "§e玩家 §e%s§e 离开了游戏..."
+
+    # 接下来为机器人回复，可以使用 MiraiCode
+    banned-qq: "[mirai:at:%d] 您已被拉黑，无法使用命令!"
+    request-whitelist-usage: "[mirai:at:%d] 语法: %s%s <您的游戏昵称>"
+    already-bound: "[mirai:at:%d] 一个 QQ 只能绑定一个账号!"
+    name-already-bound: "[mirai:at:%d] 该账号已被绑定!"
+    request-whitelist-success: "[mirai:at:%d] 成功申请白名单!"
+    not-bound: "[mirai:at:%d] 你还没有绑定过账号!"
+    success-unbind: "[mirai:at:%d] 解除绑定成功!"
+    confirm-ip-usage: "[mirai:at:%d] 语法: %s%s <验证码>"
+    wrong-code: "[mirai:at:%d] 该验证码不正确!"
+    code-not-exists: "[mirai:at:%d] 该验证码不存在!"
+    code-not-self: "[mirai:at:%d] 该验证码不属于你!"
+    confirm-ip-success: "[mirai:at:%d] 验证成功!"
