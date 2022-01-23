@@ -8,16 +8,62 @@ bot-settings:
   # 主人 QQ，可以执行高级操作
   admins:
     - 0
+
 active-settings:
   # 玩家昵称规范 (正则表达式)
   player-name: "[a-zA-Z0-9_]{3,14}"
+  
   # 群命令前缀
   command-prefix: "#"
+  
   # 群聊命令
   commands:
     request-whitelist: "申请白名单"
     unbind-whitelist: "解绑"
     confirm-ip: "验证"
+  
+  # 免密登录相关
+  none-password-login:
+    # 是否启用
+    enabled: true
+    # 超时时间
+    timed-out: 180000
+    # 屏蔽的 IP
+    blocked-ip:
+      - "192.(.*)"
+      - "172.(.*)"
+      - "10.(.*)"
+  
+  # 未登录允许使用的命令
+  no-login-allow-commands:
+    - "reg"
+    - "l"
+  
+  # 启用机器人的 QQ 群
+  enabled-groups:
+    - 0
+  
+  # 转发游戏聊天的 QQ 群 (未完成)
+  share-groups:
+    - 0
+  
+  # 联动游戏的 QQ 群 (未完成)
+  link-groups:
+    - 0
+  
+  # 登录地点
+  login-warp:
+    # 启用
+    enabled: true
+    # 地点
+    location:
+      world: world
+      yaw: 0
+      pitch: 0
+      x: 0
+      y: 0
+      z: 0
+  
   # 提示信息
   languages:
     disallow-player-name: "&4玩家昵称只能包含大小写字母、数字和下划线，并且昵称长度必须在 3 到 14 之间!"
@@ -44,39 +90,3 @@ active-settings:
     reloading-plugin: "§4正在关闭插件，你还没有登录!"
     player-join-game: "§a玩家 §e%s§a 加入了游戏!"
     player-quit-game: "§e玩家 §e%s§e 离开了游戏..."
-  # 免密登录相关
-  none-password-login:
-    # 是否启用
-    enabled: true
-    # 超时时间
-    timed-out: 180000
-    # 屏蔽的 IP
-    blocked-ip:
-      - "192.(.*)"
-      - "172.(.*)"
-      - "10.(.*)"
-  # 未登录允许使用的命令
-  no-login-allow-commands:
-    - "reg"
-    - "l"
-  # 登录地点
-  login-warp:
-    # 启用
-    enabled: true
-    # 地点
-    location:
-      world: world
-      yaw: 0
-      pitch: 0
-      x: 0
-      y: 0
-      z: 0
-  # 启用机器人的 QQ 群
-  enabled-groups:
-    - 0
-  # 转发游戏聊天的 QQ 群
-  share-groups:
-    - 0
-  # 联动游戏的 QQ 群
-  link-groups:
-    - 0
