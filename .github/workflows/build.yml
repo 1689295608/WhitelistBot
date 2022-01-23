@@ -23,14 +23,16 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-
+    - name: Set Env
+      run: |
+        $RUN_ID = $GITHUB_RUN_ID
     - uses: "marvinpinto/action-automatic-releases@latest"
       name: Push to Repository
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         prerelease: false
-        title: "Build - ${{ env.GITHUB_RUN_ID }}"
-        automatic_release_tag: "autobuild-${{ env.GITHUB_RUN_ID }}"
+        title: "Build - ${{ env.RUN_ID }}"
+        automatic_release_tag: "autobuild-${{ env.RUN_ID }}"
         files: |
             *.jar
     - name: Debugging
