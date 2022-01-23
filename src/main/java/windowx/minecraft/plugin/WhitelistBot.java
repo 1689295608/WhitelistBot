@@ -16,6 +16,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -30,6 +31,7 @@ public class WhitelistBot extends JavaPlugin {
     public static ConfigurationSection active;
     public static ConfigurationSection languages;
     public static ConfigurationSection commands;
+    public static ConfigurationSection nonePwd;
     public static HashMap<String, Long> whitelist = new HashMap<>();
     public static HashMap<String, String> playerdata = new HashMap<>();
 
@@ -210,6 +212,23 @@ public class WhitelistBot extends JavaPlugin {
             loginLoc = new Location(world, x, y, z, yaw, pitch);
         } catch (OtherException e) {
             logger.warning("§4登录点加载异常，因为：" + e.getLocalizedMessage());
+        } catch (NothingException ignored) {
+
+        }
+
+        try {
+            nonePwd = active.getConfigurationSection("none-password-login");
+            if (nonePwd == null) {
+                throw new OtherException("免密登录配置不存在");
+            }
+            boolean enabled = nonePwd.getBoolean("enabled");
+            if (!enabled) {
+                throw new NothingException();
+            }
+            ServerListener.timedOut = nonePwd.getLong("timed-out");
+            ServerListener.blockedIp = (ArrayList<String>) nonePwd.getStringList("blocked-ip");
+        } catch (OtherException e) {
+            logger.warning("§4免密登录加载异常，因为：" + e.getLocalizedMessage());
         } catch (NothingException ignored) {
 
         }
