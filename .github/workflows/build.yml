@@ -31,4 +31,4 @@ jobs:
         title: "Build - ${{ github.run_id }}"
         automatic_release_tag: "autobuild-${{ github.run_id }}"
         files: |
-            ${{ github.workspace }}/target/WhitelistBot-1.0-SNAPSHOT.jar*.jar
+            ${{ github.workspace }}/target/*.jar
