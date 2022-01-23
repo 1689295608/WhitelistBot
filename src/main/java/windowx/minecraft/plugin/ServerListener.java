@@ -24,6 +24,7 @@ import java.util.TimerTask;
 
 public class ServerListener implements Listener {
     public static long timedOut;
+    public static ArrayList<String> allowCommands = new ArrayList<>();
     public static ArrayList<String> blockedIp = new ArrayList<>();
     public static ArrayList<String> login = new ArrayList<>();
     public static HashMap<String, String> lastIp = new HashMap<>();
@@ -175,7 +176,10 @@ public class ServerListener implements Listener {
     public void onCommandPreprocess(PlayerCommandPreprocessEvent event) {
         Player player = event.getPlayer();
         String cmd = event.getMessage().split(" ")[0].toLowerCase();
-        if (cmd.equals("/l") || cmd.equals("/reg")) return;
+        if (allowCommands.contains(cmd)) {
+            event.setCancelled(false);
+            return;
+        }
         if (!isLogin(player.getName())) {
             event.setCancelled(true);
         }
