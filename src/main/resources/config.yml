@@ -44,6 +44,17 @@ active-settings:
     reloading-plugin: "§4正在关闭插件，你还没有登录!"
     player-join-game: "§a玩家 §e%s§a 加入了游戏!"
     player-quit-game: "§e玩家 §e%s§e 离开了游戏..."
+  # 免密登录相关
+  none-password-login:
+    # 是否启用
+    enabled: true
+    # 超时时间
+    timed-out: 180000
+    # 屏蔽的 IP
+    blocked-ip:
+      - "192.(.*)"
+      - "172.(.*)"
+      - "10.(.*)"
   # 登录地点
   login-warp:
     # 启用
