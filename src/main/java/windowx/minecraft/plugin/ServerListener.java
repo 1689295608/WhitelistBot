@@ -23,6 +23,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ServerListener implements Listener {
+    public static long timedOut;
+    public static ArrayList<String> blockedIp = new ArrayList<>();
     public static ArrayList<String> login = new ArrayList<>();
     public static HashMap<String, String> lastIp = new HashMap<>();
     public static HashMap<Integer, String> codes = new HashMap<>();
@@ -121,14 +123,17 @@ public class ServerListener implements Listener {
         }
 
         // TODO: 正版玩家直接免密登录
+        if (WhitelistBot.nonePwd == null || blockedIp == null) {
+            return;
+        }
 
         InetSocketAddress address = player.getAddress();
         if (address == null) {
             return;
         }
         String host = address.getHostName();
-        if (host.startsWith("192.168.") || host.startsWith("172.") || host.startsWith("10.")) {
-            return;
+        for (String blocked : blockedIp) {
+            if (host.matches(blocked)) return;
         }
         String ip = lastIp.get(name);
         if (ip == null) {
@@ -137,7 +142,7 @@ public class ServerListener implements Listener {
         if (!ip.equals(host)) {
             return;
         }
-        if (System.currentTimeMillis() - lastTime.get(host) > 3 * 60 * 1000) {
+        if (System.currentTimeMillis() - lastTime.get(host) > timedOut) {
             return;
         }
         forceLogin(player.getName());
