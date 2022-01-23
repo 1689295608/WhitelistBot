@@ -116,7 +116,9 @@ public class ServerListener implements Listener {
 
         Location loc = player.getLocation();
         loginLoc.put(name, loc);
-        player.teleport(WhitelistBot.loginLoc);
+        if(WhitelistBot.loginLoc != null) {
+            player.teleport(WhitelistBot.loginLoc);
+        }
 
         // TODO: 正版玩家直接免密登录
 
