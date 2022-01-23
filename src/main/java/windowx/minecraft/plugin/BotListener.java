@@ -6,16 +6,25 @@ import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.ListenerHost;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.event.events.MemberLeaveEvent;
-import net.mamoe.mirai.message.data.At;
+import net.mamoe.mirai.message.code.MiraiCode;
 import net.mamoe.mirai.message.data.MessageChain;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+
 public class BotListener implements ListenerHost {
+    public static ArrayList<Long> bannedQQ = new ArrayList<>();
+    public static String COMMAND_PREFIX;
+    public static String REQUEST_WHITELIST;
+    public static String UNBIND_WHITELIST;
+    public static String CONFIRM_IP;
+
     @EventHandler
     public void onGroupMessage(GroupMessageEvent event) {
         Group group = event.getGroup();
         Member sender = event.getSender();
+        long id = sender.getId();
         if (!WhitelistBot.isAllowedGroup(group.getId())) {
             return;
         }
@@ -26,63 +35,74 @@ public class BotListener implements ListenerHost {
             return;
         }
         String label = cmds[0];
-        if (!label.startsWith(WhitelistBot.getConfig("command-prefix", "#"))) {
+        if (!label.startsWith(COMMAND_PREFIX)) {
             return;
         }
+        if (bannedQQ != null) {
+            if (bannedQQ.contains(sender.getId())) {
+                group.sendMessage(buildRespond("banned-qq", id));
+                return;
+            }
+        }
         label = label.substring(1);
-        if (label.equals(WhitelistBot.REQUEST_WHITELIST)) {
+        if (label.equals(REQUEST_WHITELIST)) {
             if (cmds.length < 2) {
-                group.sendMessage(new At(sender.getId()).plus("语法: " + WhitelistBot.REQUEST_WHITELIST + " <您的游戏昵称>"));
+                group.sendMessage(buildRespond("request-whitelist-usage", id, COMMAND_PREFIX, REQUEST_WHITELIST));
                 return;
             }
             if (WhitelistBot.hasQQ(sender.getId())) {
-                group.sendMessage(new At(sender.getId()).plus("一个 QQ 只能绑定一个账号!"));
+                group.sendMessage(buildRespond("already-bound", id));
                 return;
             }
             if (WhitelistBot.hasWhitelist(cmds[1])) {
-                group.sendMessage(new At(sender.getId()).plus("该账号已被绑定!"));
+                group.sendMessage(buildRespond("name-already-bound", id));
                 return;
             }
             WhitelistBot.addWhitelist(cmds[1], sender.getId());
-            group.sendMessage(new At(sender.getId()).plus("申请白名单成功!"));
+            group.sendMessage(buildRespond("name-already-bound", id));
             return;
         }
-        if (label.equals(WhitelistBot.UNBIND_WHITELIST)) {
+        if (label.equals(UNBIND_WHITELIST)) {
             if (!WhitelistBot.hasQQ(sender.getId())) {
-                group.sendMessage(new At(sender.getId()).plus("你还没有绑定过账号!"));
+                group.sendMessage(buildRespond("not-bound", id));
                 return;
             }
             WhitelistBot.removeWhitelist(WhitelistBot.getPlayer(sender.getId()));
-            group.sendMessage(new At(sender.getId()).plus("解除绑定成功!"));
+            group.sendMessage(buildRespond("success-unbind", id));
             return;
         }
-        if (label.equals(WhitelistBot.CONFIRM_IP)) {
+        if (label.equals(CONFIRM_IP)) {
             if (cmds.length < 2) {
-                group.sendMessage(new At(sender.getId()).plus("语法: " + WhitelistBot.CONFIRM_IP + " <验证码>"));
+                group.sendMessage(buildRespond("confirm-ip-usage", id, COMMAND_PREFIX, CONFIRM_IP));
                 return;
             }
             Integer code = null;
             try {
                 code = Integer.parseInt(cmds[1]);
             } catch (NumberFormatException e) {
-                group.sendMessage(new At(sender.getId()).plus("该验证码不正确!"));
+                group.sendMessage(buildRespond("wrong-code", id));
             }
             String player = ServerListener.codes.get(code);
             String bind = WhitelistBot.getPlayer(sender.getId());
             if (player == null) {
-                group.sendMessage(new At(sender.getId()).plus("该验证码不存在!"));
+                group.sendMessage(buildRespond("code-not-exists", id));
                 return;
             }
             if (!player.equals(bind)) {
-                group.sendMessage(new At(sender.getId()).plus("该验证码不属于你!"));
+                group.sendMessage(buildRespond("code-not-self", id));
                 return;
             }
             String ip = ServerListener.codeIp.get(code);
             ServerListener.lastIp.put(player, ip);
             ServerListener.codes.remove(code);
             ServerListener.codeIp.remove(code);
-            group.sendMessage(new At(sender.getId()).plus("验证成功!"));
+            group.sendMessage(buildRespond("confirm-ip-success", id));
         }
+    }
+
+    public static MessageChain buildRespond(String language, Object... args) {
+        String message = WhitelistBot.getLanguage(language);
+        return MiraiCode.deserializeMiraiCode(String.format(message, args));
     }
 
     @EventHandler
