@@ -55,6 +55,10 @@ active-settings:
       - "192.(.*)"
       - "172.(.*)"
       - "10.(.*)"
+  # 未登录允许使用的命令
+  no-login-allow-commands:
+    - "reg"
+    - "l"
   # 登录地点
   login-warp:
     # 启用
