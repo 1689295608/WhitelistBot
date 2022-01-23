@@ -27,8 +27,8 @@ jobs:
       name: Push to Repository
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        prerelease: false
+        prerelease: true
         title: "Build - ${{ github.run_id }}"
         automatic_release_tag: "autobuild-${{ github.run_id }}"
         files: |
-            *.jar
+            ${{ github.workspace }}/target/WhitelistBot-1.0-SNAPSHOT.jar*.jar
