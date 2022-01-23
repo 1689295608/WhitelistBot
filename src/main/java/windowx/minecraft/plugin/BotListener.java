@@ -45,14 +45,18 @@ public class BotListener implements ListenerHost {
             }
             WhitelistBot.addWhitelist(cmds[1], sender.getId());
             group.sendMessage(new At(sender.getId()).plus("申请白名单成功!"));
-        } else if (label.equals(WhitelistBot.UNBIND_WHITELIST)) {
+            return;
+        }
+        if (label.equals(WhitelistBot.UNBIND_WHITELIST)) {
             if (!WhitelistBot.hasQQ(sender.getId())) {
                 group.sendMessage(new At(sender.getId()).plus("你还没有绑定过账号!"));
                 return;
             }
             WhitelistBot.removeWhitelist(WhitelistBot.getPlayer(sender.getId()));
             group.sendMessage(new At(sender.getId()).plus("解除绑定成功!"));
-        } else if (label.equals(WhitelistBot.CONFIRM_IP)) {
+            return;
+        }
+        if (label.equals(WhitelistBot.CONFIRM_IP)) {
             if (cmds.length < 2) {
                 group.sendMessage(new At(sender.getId()).plus("语法: " + WhitelistBot.CONFIRM_IP + " <验证码>"));
                 return;
