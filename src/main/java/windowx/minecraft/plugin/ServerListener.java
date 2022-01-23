@@ -24,6 +24,7 @@ import java.util.TimerTask;
 
 public class ServerListener implements Listener {
     public static long timedOut;
+    public static boolean enableSafeIp = true;
     public static ArrayList<String> allowCommands = new ArrayList<>();
     public static ArrayList<String> blockedIp = new ArrayList<>();
     public static ArrayList<String> login = new ArrayList<>();
@@ -64,21 +65,23 @@ public class ServerListener implements Listener {
         InetAddress address = event.getAddress();
         String ip = address.getHostName();
 
-        if (!last.equals(ip)) {
-            if (!codes.containsValue(name)) {
-                int code = (int) (999999 * Math.random());
-                codes.put(code, name);
-                codeIp.put(code, ip);
-            }
-            String c = "";
-            for (int k : codes.keySet()) {
-                if (codes.get(k).equals(name)) {
-                    c = String.valueOf(k);
-                }
-            }
-            String kickMsg = WhitelistBot.getLanguagef("unsafe-confirm", c);
-            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, kickMsg);
+        if (!enableSafeIp) return;
+        
+        if (last.equals(ip)) return;
+        
+        if (!codes.containsValue(name)) {
+            int code = (int) (999999 * Math.random());
+            codes.put(code, name);
+            codeIp.put(code, ip);
         }
+        String c = "";
+        for (int k : codes.keySet()) {
+            if (codes.get(k).equals(name)) {
+                c = String.valueOf(k);
+            }
+        }
+        String kickMsg = WhitelistBot.getLanguagef("unsafe-confirm", c);
+        event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, kickMsg);
     }
 
     @EventHandler
