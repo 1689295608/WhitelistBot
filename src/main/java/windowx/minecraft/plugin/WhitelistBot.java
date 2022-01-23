@@ -35,9 +35,6 @@ public class WhitelistBot extends JavaPlugin {
     public static HashMap<String, Long> whitelist = new HashMap<>();
     public static HashMap<String, String> playerdata = new HashMap<>();
 
-    public static String REQUEST_WHITELIST;
-    public static String UNBIND_WHITELIST;
-    public static String CONFIRM_IP;
 
     File wlfile;
     File datafile;
@@ -174,6 +171,7 @@ public class WhitelistBot extends JavaPlugin {
         }
         ServerListener.allowCommands = (ArrayList<String>) active.getStringList("no-login-allow-commands");
         ServerListener.enableSafeIp = active.getBoolean("enable-safe-ip");
+        BotListener.bannedQQ = (ArrayList<Long>) active.getLongList("banned-qq");
         commands = active.getConfigurationSection("commands");
         languages = active.getConfigurationSection("languages");
         if (languages == null) {
@@ -182,9 +180,10 @@ public class WhitelistBot extends JavaPlugin {
             return;
         }
         if (commands != null) {
-            REQUEST_WHITELIST = commands.getString("request-whitelist");
-            UNBIND_WHITELIST = commands.getString("unbind-whitelist");
-            CONFIRM_IP = commands.getString("confirm-ip");
+            BotListener.COMMAND_PREFIX = commands.getString("command-prefix");
+            BotListener.REQUEST_WHITELIST = commands.getString("request-whitelist");
+            BotListener.UNBIND_WHITELIST = commands.getString("unbind-whitelist");
+            BotListener.CONFIRM_IP = commands.getString("confirm-ip");
         }
         allowedGroup = active.getLongList("enabled-groups");
 
@@ -271,7 +270,7 @@ public class WhitelistBot extends JavaPlugin {
         try {
             if (!wlfile.exists()) {
                 if (!wlfile.createNewFile()) {
-                    throw new IOException("can not create file");
+                    throw new IOException("无法创建文件");
                 }
             }
             FileInputStream fis = new FileInputStream(wlfile);
@@ -290,7 +289,7 @@ public class WhitelistBot extends JavaPlugin {
             datafile = new File(dir, "data.ini");
             if (!datafile.exists()) {
                 if (!datafile.createNewFile()) {
-                    throw new IOException("can not create file");
+                    throw new IOException("无法创建文件");
                 }
             }
             FileInputStream fis = new FileInputStream(datafile);
@@ -371,7 +370,7 @@ public class WhitelistBot extends JavaPlugin {
         } catch (IOException e) {
             logger.warning("§4保存数据失败，详细信息: " + e.getLocalizedMessage());
         }
-        
+
         logger.info("§a已关闭 WhitelistBot!");
     }
 }
