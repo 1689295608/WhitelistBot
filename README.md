@@ -11,9 +11,9 @@
 
 ## 如何使用
 
-1. 在 [Release](//github.com/1689295608/WhitelistBot/release) 下载最新的前置 `MiraiCore.jar` 插件
+1. 在 [Releases](//github.com/1689295608/WhitelistBot/releases) 下载最新的前置 `MiraiCore.jar` 插件
 
-2. 在 [Release](//github.com/1689295608/WhitelistBot/release) 下载最新的 `WhitelistBot.jar` 文件 *或自己构建最新的代码*
+2. 在 [Releases](//github.com/1689295608/WhitelistBot/releases) 下载最新的 `WhitelistBot.jar` 文件 *或自己构建最新的代码*
 
 3. 将准备好的 .jar 插件文件放入目的服务端的 `plugins` 目录
 
