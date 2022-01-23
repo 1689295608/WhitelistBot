@@ -12,7 +12,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+      RUN_ID: $GITHUB_RUN_ID
+      
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 17
@@ -29,8 +31,8 @@ jobs:
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         prerelease: false
-        title: "Build - ${{ GITHUB_RUN_ID }}"
-        automatic_release_tag: "autobuild-${{ GITHUB_RUN_ID }}"
+        title: "Build - ${{ env.RUN_ID }}"
+        automatic_release_tag: "autobuild-${{ env.RUN_ID }}"
         files: |
             $GITHUB_WORKSPACE/target/WhitelistBot-1.0-SNAPSHOT.jar
     - name: Debugging
