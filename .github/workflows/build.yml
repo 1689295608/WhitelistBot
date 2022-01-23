@@ -27,9 +27,12 @@ jobs:
     - uses: "marvinpinto/action-automatic-releases@latest"
       name: Push to Repository
       with:
-        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        repo_token: "${{ GITHUB_TOKEN }}"
         prerelease: false
-        title: "Build - ${{ secrets.GITHUB_RUN_ID }}"
-        automatic_release_tag: "autobuild-${{ secrets.GITHUB_RUN_ID }}"
+        title: "Build - ${{ GITHUB_RUN_ID }}"
+        automatic_release_tag: "autobuild-${{ GITHUB_RUN_ID }}"
         files: |
             $GITHUB_WORKSPACE/target/WhitelistBot-1.0-SNAPSHOT.jar
+    - name: Debugging
+      run: |
+        echo $GITHUB_WORKSPACE
