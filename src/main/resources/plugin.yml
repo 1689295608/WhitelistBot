@@ -6,7 +6,10 @@ depend:
 commands:
   wb:
     usage: /wb <args>
+    permission: whitelistbot.commands.wb
   l:
     usage: /l <密码>
+    permission: whitelistbot.commands.l
   reg:
     uasge: /reg <密码> <再次输入密码>
+    permission: whitelistbot.commands.reg
