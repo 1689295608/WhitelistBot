@@ -172,6 +172,7 @@ public class WhitelistBot extends JavaPlugin {
             this.setEnabled(false);
             return;
         }
+        ServerListener.allowCommands = (ArrayList<String>) active.getStringList("no-login-allow-commands");
         commands = active.getConfigurationSection("commands");
         languages = active.getConfigurationSection("languages");
         if (languages == null) {
