@@ -24,5 +24,11 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - name: Remove to Repository
-      run: mv $GITHUB_WORKSPACE/target/WhitelistBot-1.0-SNAPSHOT.jar target/WhitelistBot-$GITHUB_RUN_ID.jar
+    - uses: "marvinpinto/action-automatic-releases@latest"
+      name: Push to Repository
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        prerelease: false
+        title: "Build - $GITHUB_RUN_ID"
+        files: |
+            $GITHUB_WORKSPACE/target/WhitelistBot-1.0-SNAPSHOT.jar
