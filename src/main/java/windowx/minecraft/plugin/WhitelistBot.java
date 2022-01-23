@@ -56,7 +56,7 @@ public class WhitelistBot extends JavaPlugin {
     /**
      * 添加一个玩家到白名单
      * @param name 玩家名
-     * @param qq
+     * @param qq QQ
      */
     public static void addWhitelist(String name, Long qq) {
         whitelist.put(name, qq);
@@ -336,10 +336,11 @@ public class WhitelistBot extends JavaPlugin {
         if (bot != null) {
             bot.close();
         }
-        boolean suc = false;
         try {
             if (!wlfile.exists()) {
-                suc = wlfile.createNewFile();
+                if (!wlfile.createNewFile()) {
+                    throw new IOException("无法创建文件");
+                }
             }
             FileOutputStream fos = new FileOutputStream(wlfile);
             PrintWriter pw = new PrintWriter(fos);
@@ -349,26 +350,28 @@ public class WhitelistBot extends JavaPlugin {
                 pw.println(s + "=" + wl);
             }
             pw.close();
+        } catch (IOException e) {
+            logger.warning("§4保存白名单失败，详细信息: " + e.getLocalizedMessage());
+        }
 
+        try {
             if (!datafile.exists()) {
-                suc = datafile.createNewFile();
+                if (!datafile.createNewFile()) {
+                    throw new IOException("无法创建文件");
+                }
             }
-            fos = new FileOutputStream(datafile);
-            pw = new PrintWriter(fos);
+            FileOutputStream fos = new FileOutputStream(datafile);
+            PrintWriter pw = new PrintWriter(fos);
             for(String s : playerdata.keySet()) {
                 String data = playerdata.get(s);
                 if (data == null) continue;
                 pw.println(s + "=" + data);
             }
             pw.close();
-
-            suc = true;
         } catch (IOException e) {
-            logger.warning("§4保存白名单失败，详细信息: " + e.getLocalizedMessage());
+            logger.warning("§4保存数据失败，详细信息: " + e.getLocalizedMessage());
         }
-        if (!suc) {
-            logger.warning("§4保存白名单数据失败!");
-        }
+        
         logger.info("§a已关闭 WhitelistBot!");
     }
 }
