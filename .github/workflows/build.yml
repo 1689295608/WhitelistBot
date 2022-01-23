@@ -27,7 +27,7 @@ jobs:
     - uses: "marvinpinto/action-automatic-releases@latest"
       name: Push to Repository
       with:
-        repo_token: "${{ GITHUB_TOKEN }}"
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
         prerelease: false
         title: "Build - ${{ GITHUB_RUN_ID }}"
         automatic_release_tag: "autobuild-${{ GITHUB_RUN_ID }}"
