@@ -66,9 +66,9 @@ public class ServerListener implements Listener {
         String ip = address.getHostName();
 
         if (!enableSafeIp) return;
-        
+
         if (last.equals(ip)) return;
-        
+
         if (!codes.containsValue(name)) {
             int code = (int) (999999 * Math.random());
             codes.put(code, name);
@@ -338,5 +338,12 @@ public class ServerListener implements Listener {
         Location backLoc = loginLoc.get(name);
         if (backLoc == null) return;
         player.teleport(backLoc);
+    }
+
+    public static void forceLoginOut(String name) {
+        login.remove(name);
+        Player player = Bukkit.getPlayer(name);
+        if (player == null) return;
+        player.kickPlayer(WhitelistBot.getLanguage("removed-whitelist"));
     }
 }
