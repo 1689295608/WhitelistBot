@@ -58,6 +58,14 @@ public class BotListener implements ListenerHost {
                 group.sendMessage(buildRespond("name-already-bound", id));
                 return;
             }
+            String regex = WhitelistBot.active.getString("player-name");
+            if (regex == null) {
+                regex = "";
+            }
+            if (!cmds[1].matches(regex)) {
+                group.sendMessage(buildRespond("disallow-player-name", id));
+                return;
+            }
             WhitelistBot.addWhitelist(cmds[1], sender.getId());
             group.sendMessage(buildRespond("name-already-bound", id));
             return;
