@@ -65,10 +65,7 @@ public class WhitelistBot extends JavaPlugin {
      */
     public static void removeWhitelist(String name) {
         whitelist.remove(name);
-        Player player = Bukkit.getPlayer(name);
-        if (player != null) {
-            player.kickPlayer(WhitelistBot.getConfig("kick-message"));
-        }
+        ServerListener.forceLoginOut(name);
     }
 
     /**
