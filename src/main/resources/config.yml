@@ -36,8 +36,8 @@ active-settings:
 
   # 未登录允许使用的命令
   no-login-allow-commands:
-    - "reg"
-    - "l"
+    - "/reg"
+    - "/l"
 
   # 是否启用异地登陆保护
   enable-safe-ip: true
