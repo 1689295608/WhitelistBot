@@ -80,7 +80,7 @@ public class ServerListener implements Listener {
                 c = String.valueOf(k);
             }
         }
-        String kickMsg = WhitelistBot.getLanguagef("unsafe-confirm", c);
+        String kickMsg = WhitelistBot.getLanguagef("unsafe-confirm", Integer.parseInt(c));
         event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, kickMsg);
     }
 
