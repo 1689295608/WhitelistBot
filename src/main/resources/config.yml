@@ -97,6 +97,7 @@ active-settings:
     reloading-plugin: "§4正在关闭插件，你还没有登录!"
     player-join-game: "§a玩家 §e%s§a 加入了游戏!"
     player-quit-game: "§e玩家 §e%s§e 离开了游戏..."
+    no-permission: "§c你没有足够的权限进行该操作!"
 
     # 接下来为机器人回复，可以使用 MiraiCode
     banned-qq: "[mirai:at:%d] 您已被拉黑，无法使用命令!"
