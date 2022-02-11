@@ -333,6 +333,7 @@ public class WhitelistBot extends JavaPlugin {
             bot.close();
         }
         try {
+            if (wlfile == null) throw new OtherException("wlfile is null");
             if (!wlfile.exists()) {
                 if (!wlfile.createNewFile()) {
                     throw new IOException("无法创建文件");
@@ -348,9 +349,12 @@ public class WhitelistBot extends JavaPlugin {
             pw.close();
         } catch (IOException e) {
             logger.warning("§4保存白名单失败，详细信息: " + e.getLocalizedMessage());
+        } catch (OtherException ignored) {
+
         }
 
         try {
+            if (datafile == null) throw new OtherException("datafile is null");
             if (!datafile.exists()) {
                 if (!datafile.createNewFile()) {
                     throw new IOException("无法创建文件");
@@ -366,6 +370,8 @@ public class WhitelistBot extends JavaPlugin {
             pw.close();
         } catch (IOException e) {
             logger.warning("§4保存数据失败，详细信息: " + e.getLocalizedMessage());
+        } catch (OtherException ignored) {
+
         }
 
         logger.info("§a已关闭 WhitelistBot!");
