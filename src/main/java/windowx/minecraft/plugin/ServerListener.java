@@ -100,15 +100,14 @@ public class ServerListener implements Listener {
                 }
             }
         };
-        Thread timedOut = new Thread(() -> {
-            try {
-                Thread.sleep(60000);
-                player.kickPlayer(WhitelistBot.getLanguage("timed-out-login"));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+
+        long timeout = WhitelistBot.active.getLong("login-timeout", 60);
+        Bukkit.getScheduler().runTaskLater(WhitelistBot.plugin, () -> {
+            if (ServerListener.isLogin(player.getName())) {
+                return;
             }
-        });
-        timedOut.start();
+            player.kickPlayer(WhitelistBot.getLanguage("timed-out-login"));
+        }, timeout * 1000);
         message.schedule(task, 0, 5000);
         messages.put(name, task);
     }
