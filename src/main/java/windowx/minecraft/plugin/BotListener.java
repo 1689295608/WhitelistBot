@@ -19,6 +19,7 @@ public class BotListener implements ListenerHost {
     public static String REQUEST_WHITELIST;
     public static String UNBIND_WHITELIST;
     public static String CONFIRM_IP;
+    public static String EXECUTE;
 
     @EventHandler
     public void onGroupMessage(GroupMessageEvent event) {
@@ -35,6 +36,7 @@ public class BotListener implements ListenerHost {
             return;
         }
         String label = cmds[0];
+
         if (!label.startsWith(COMMAND_PREFIX)) {
             return;
         }
@@ -105,6 +107,19 @@ public class BotListener implements ListenerHost {
             ServerListener.codes.remove(code);
             ServerListener.codeIp.remove(code);
             group.sendMessage(buildRespond("confirm-ip-success", id));
+            return;
+        }
+        if (label.equals(EXECUTE)) {
+            if (!WhitelistBot.admins.contains(sender.getId())) {
+                group.sendMessage(buildRespond("not-admin", id));
+                return;
+            }
+            if (cmds.length < 2) {
+                group.sendMessage(buildRespond("execute-usage", id, COMMAND_PREFIX, EXECUTE));
+                return;
+            }
+            // TODO: Run Command and return Command Messages...
+            // Bukkit.dispatchCommand();
         }
     }
 
