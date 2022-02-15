@@ -14,7 +14,7 @@ active-settings:
   player-name: "[a-zA-Z0-9_]{3,14}"
 
   # 登录超时时间 (单位: tick)
-  login-timeout: 240
+  login-timeout: 1200
 
   # 群聊命令
   commands:
