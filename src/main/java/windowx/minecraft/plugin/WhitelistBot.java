@@ -23,6 +23,9 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 
 public class WhitelistBot extends JavaPlugin {
+    // 当前版本号
+    public static int version = 1;
+
     public static Bot bot;
     public static Location loginLoc = null;
     public static boolean isLoaded = false;
@@ -32,6 +35,7 @@ public class WhitelistBot extends JavaPlugin {
     public static ConfigurationSection languages;
     public static ConfigurationSection commands;
     public static ConfigurationSection nonePwd;
+    public static List<Long> admins = new ArrayList<>();
     public static HashMap<String, Long> whitelist = new HashMap<>();
     public static HashMap<String, String> playerdata = new HashMap<>();
 
@@ -158,6 +162,19 @@ public class WhitelistBot extends JavaPlugin {
         this.saveDefaultConfig();
 
         config = this.getConfig();
+
+        int confVer = config.getInt("version");
+        if (confVer < 1) {
+            // 由于 Config Version 并不是最初就有的,
+            // 所以若插件版本过低, 我们就将无法判断当前的版本是多少
+            // 只能要求重新生成配置文件
+            logger.warning("§4配置文件版本过低, 请删除配置文件重新生成!");
+            logger.warning("§4另外, 请不要尝试修改配置文件中的 version 项, 否则会导致本插件无法使用等现象!");
+            this.setEnabled(false);
+            return;
+        }
+        // 用于兼容旧版的配置文件, 牢记兼容后要修改配置文件的 version 项!
+
         dir = this.getDataFolder().getPath();
         wlfile = new File(dir, "whitelist.ini");
         active = config.getConfigurationSection("active-settings");
@@ -181,6 +198,7 @@ public class WhitelistBot extends JavaPlugin {
             BotListener.REQUEST_WHITELIST = commands.getString("request-whitelist");
             BotListener.UNBIND_WHITELIST = commands.getString("unbind-whitelist");
             BotListener.CONFIRM_IP = commands.getString("confirm-ip");
+            BotListener.EXECUTE = commands.getString("execute");
         }
         allowedGroup = active.getLongList("enabled-groups");
 
@@ -240,6 +258,7 @@ public class WhitelistBot extends JavaPlugin {
 
         long qq = botConfig.getLong("qq");
         String password = botConfig.getString("password");
+        admins = botConfig.getLongList("admins");
         if (password == null || password.isEmpty()) {
             logger.warning("§4密码不能为空！");
             this.setEnabled(false);
