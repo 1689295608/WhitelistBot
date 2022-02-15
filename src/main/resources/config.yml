@@ -13,14 +13,15 @@ active-settings:
   # 玩家昵称规范 (正则表达式)
   player-name: "[a-zA-Z0-9_]{3,14}"
 
-  # 群命令前缀
-  command-prefix: "#"
-
   # 群聊命令
   commands:
+    # 群命令前缀
+    command-prefix: "#"
+    
     request-whitelist: "申请白名单"
     unbind-whitelist: "解绑"
     confirm-ip: "验证"
+    execute: "执行"
 
   # 免密登录相关
   none-password-login:
@@ -112,3 +113,5 @@ active-settings:
     code-not-exists: "[mirai:at:%d] 该验证码不存在!"
     code-not-self: "[mirai:at:%d] 该验证码不属于你!"
     confirm-ip-success: "[mirai:at:%d] 验证成功!"
+    execute-usage: "[mirai:at:%d] 语法: %s%s <命令>"
+    not-admin: "[mirai:at:%d] 你没有足够的权限进行该操作!"
