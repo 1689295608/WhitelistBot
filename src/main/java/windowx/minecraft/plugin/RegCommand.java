@@ -5,6 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -40,6 +41,12 @@ public class RegCommand implements CommandExecutor {
         WhitelistBot.setPassword(sender.getName(), md5);
         ServerListener.forceLogin(sender.getName());
         sender.sendMessage(WhitelistBot.getLanguage("succeed-register"));
+        try {
+            WhitelistBot.saveData(WhitelistBot.datafile, WhitelistBot.playerdata);
+        } catch (OtherException | IOException e) {
+            e.printStackTrace();
+            WhitelistBot.logger.warning("§4热保存玩家数据失败!");
+        }
         return true;
     }
 }
