@@ -151,7 +151,7 @@ public class WbCommand implements CommandExecutor {
                         }
                         long delay = Long.parseLong(args[3]);
                         StringBuilder sb = new StringBuilder();
-                        for (int i = 3; i < args.length; i++) {
+                        for (int i = 4; i < args.length; i++) {
                             if (!sb.isEmpty()) sb.append(" ");
                             sb.append(args[i]);
                         }
