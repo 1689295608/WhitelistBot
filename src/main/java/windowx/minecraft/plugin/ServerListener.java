@@ -101,7 +101,7 @@ public class ServerListener implements Listener {
             }
         };
 
-        long timeout = WhitelistBot.active.getLong("login-timeout", 240);
+        long timeout = WhitelistBot.active.getLong("login-timeout", 1200);
         Bukkit.getScheduler().runTaskLater(WhitelistBot.plugin, () -> {
             if (ServerListener.isLogin(player.getName())) {
                 return;
