@@ -1,5 +1,7 @@
 package windowx.minecraft.plugin;
 
+import net.mamoe.mirai.contact.Group;
+import net.mamoe.mirai.message.code.MiraiCode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -81,6 +83,27 @@ public class WbCommand implements CommandExecutor {
                     return true;
                 }
             }
+        } else if (subcmd.equals("send")) {
+            if (args.length < 3) {
+                sender.sendMessage("语法: /wb send <group> <messages...>");
+            }
+            long gid = Long.parseLong(args[1]);
+            Group group = WhitelistBot.bot.getGroup(gid);
+            if (group == null) {
+                sender.sendMessage("§c该群不存在!");
+                return true;
+            }
+            StringBuilder sb = new StringBuilder();
+            for (int i = 2; i < args.length; i ++) {
+                if (!sb.isEmpty()) sb.append(" ");
+                sb.append(args[i]);
+            }
+            if (sb.isEmpty()) {
+                sender.sendMessage("§c发送的消息不能为空!");
+                return true;
+            }
+            group.sendMessage(MiraiCode.deserializeMiraiCode(sb.toString()));
+            sender.sendMessage("§a发送成功!");
         } else {
             sender.sendMessage(usage);
         }
