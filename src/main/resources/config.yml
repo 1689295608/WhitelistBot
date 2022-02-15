@@ -17,7 +17,7 @@ active-settings:
   commands:
     # 群命令前缀
     command-prefix: "#"
-    
+
     request-whitelist: "申请白名单"
     unbind-whitelist: "解绑"
     confirm-ip: "验证"
@@ -115,3 +115,6 @@ active-settings:
     confirm-ip-success: "[mirai:at:%d] 验证成功!"
     execute-usage: "[mirai:at:%d] 语法: %s%s <命令>"
     not-admin: "[mirai:at:%d] 你没有足够的权限进行该操作!"
+
+# !!! 请不要修改这个项目的值 !!!
+version: 1
