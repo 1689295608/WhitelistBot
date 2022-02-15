@@ -15,13 +15,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -346,13 +341,19 @@ public class WhitelistBot extends JavaPlugin {
         if (file == null) {
             throw new OtherException("file is null");
         }
+        if (!file.exists()) {
+            if (!file.createNewFile()) {
+                throw new OtherException("can't create file");
+            }
+        }
         StringBuilder sb = new StringBuilder();
         for(Object key : data.keySet()) {
             Object value = data.get(key);
             sb.append(key).append("=").append(value).append("\n");
         }
-        Path path = file.toPath();
-        Files.writeString(path, sb.toString(), StandardOpenOption.CREATE);
+        FileOutputStream fos = new FileOutputStream(file);
+        fos.write(sb.toString().getBytes(StandardCharsets.UTF_8));
+        fos.close();
     }
 
     @Override
@@ -369,7 +370,6 @@ public class WhitelistBot extends JavaPlugin {
         if (bot != null) {
             bot.close();
         }
-
         try {
             saveData(wlfile, whitelist);
         } catch (IOException e) {
