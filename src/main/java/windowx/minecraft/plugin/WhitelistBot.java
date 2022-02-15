@@ -41,11 +41,10 @@ public class WhitelistBot extends JavaPlugin {
     public static HashMap<String, Long> whitelist = new HashMap<>();
     public static HashMap<String, String> playerdata = new HashMap<>();
 
-
-    File wlfile;
-    File datafile;
-    Logger logger;
-    String dir;
+    public static File wlfile;
+    public static File datafile;
+    public static Logger logger;
+    public static String dir;
 
     /**
      * 获取该玩家是否在白名单内
@@ -337,6 +336,25 @@ public class WhitelistBot extends JavaPlugin {
         logger.info("§a成功启动 WhitelistBot!");
     }
 
+    public static void saveData(File file, HashMap<?, ?> data) throws OtherException, IOException {
+        if (file == null) {
+            throw new OtherException("file is null");
+        }
+        if (!file.exists()) {
+            if (!file.createNewFile()) {
+                throw new OtherException("can't create file");
+            }
+        }
+        FileOutputStream fos = new FileOutputStream(file);
+        PrintWriter pw = new PrintWriter(fos);
+        for(Object key : data.keySet()) {
+            Object value = data.get(key);
+            pw.println(key + "=" + value);
+        }
+        fos.close();
+        pw.close();
+    }
+
     @Override
     public void onDisable() {
         logger.info("§e正在关闭 WhitelistBot...");
@@ -352,20 +370,7 @@ public class WhitelistBot extends JavaPlugin {
             bot.close();
         }
         try {
-            if (wlfile == null) throw new OtherException("wlfile is null");
-            if (!wlfile.exists()) {
-                if (!wlfile.createNewFile()) {
-                    throw new IOException("无法创建文件");
-                }
-            }
-            FileOutputStream fos = new FileOutputStream(wlfile);
-            PrintWriter pw = new PrintWriter(fos);
-            for(String s : whitelist.keySet()) {
-                Long wl = whitelist.get(s);
-                if (wl == null) continue;
-                pw.println(s + "=" + wl);
-            }
-            pw.close();
+            saveData(wlfile, whitelist);
         } catch (IOException e) {
             logger.warning("§4保存白名单失败，详细信息: " + e.getLocalizedMessage());
         } catch (OtherException ignored) {
@@ -373,20 +378,7 @@ public class WhitelistBot extends JavaPlugin {
         }
 
         try {
-            if (datafile == null) throw new OtherException("datafile is null");
-            if (!datafile.exists()) {
-                if (!datafile.createNewFile()) {
-                    throw new IOException("无法创建文件");
-                }
-            }
-            FileOutputStream fos = new FileOutputStream(datafile);
-            PrintWriter pw = new PrintWriter(fos);
-            for(String s : playerdata.keySet()) {
-                String data = playerdata.get(s);
-                if (data == null) continue;
-                pw.println(s + "=" + data);
-            }
-            pw.close();
+            saveData(datafile, playerdata);
         } catch (IOException e) {
             logger.warning("§4保存数据失败，详细信息: " + e.getLocalizedMessage());
         } catch (OtherException ignored) {
