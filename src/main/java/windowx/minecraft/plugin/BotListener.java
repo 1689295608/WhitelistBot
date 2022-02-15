@@ -11,6 +11,7 @@ import net.mamoe.mirai.message.data.MessageChain;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class BotListener implements ListenerHost {
@@ -37,6 +38,14 @@ public class BotListener implements ListenerHost {
         }
         String label = cmds[0];
 
+        /* Debugging Logging
+        System.out.printf("[%s] %s: %s\n",
+                group.getName(),
+                sender.getNick(),
+                message
+        );
+        */
+
         if (!label.startsWith(COMMAND_PREFIX)) {
             return;
         }
@@ -57,7 +66,7 @@ public class BotListener implements ListenerHost {
                 return;
             }
             if (WhitelistBot.hasWhitelist(cmds[1])) {
-                group.sendMessage(buildRespond("name-already-bound", id));
+                group.sendMessage(buildRespond("name-already-bound", id, cmds[1]));
                 return;
             }
             String regex = WhitelistBot.active.getString("player-name");
@@ -69,19 +78,21 @@ public class BotListener implements ListenerHost {
                 return;
             }
             WhitelistBot.addWhitelist(cmds[1], sender.getId());
-            group.sendMessage(buildRespond("name-already-bound", id));
-            return;
-        }
-        if (label.equals(UNBIND_WHITELIST)) {
+            group.sendMessage(buildRespond("request-whitelist-success", id));
+            try {
+                WhitelistBot.saveData(WhitelistBot.wlfile, WhitelistBot.whitelist);
+            } catch (OtherException | IOException e) {
+                e.printStackTrace();
+                WhitelistBot.logger.warning("§4热保存白名单数据失败!");
+            }
+        } else if (label.equals(UNBIND_WHITELIST)) {
             if (!WhitelistBot.hasQQ(sender.getId())) {
                 group.sendMessage(buildRespond("not-bound", id));
                 return;
             }
             WhitelistBot.removeWhitelist(WhitelistBot.getPlayer(sender.getId()));
             group.sendMessage(buildRespond("success-unbind", id));
-            return;
-        }
-        if (label.equals(CONFIRM_IP)) {
+        } else if (label.equals(CONFIRM_IP)) {
             if (cmds.length < 2) {
                 group.sendMessage(buildRespond("confirm-ip-usage", id, COMMAND_PREFIX, CONFIRM_IP));
                 return;
@@ -107,9 +118,7 @@ public class BotListener implements ListenerHost {
             ServerListener.codes.remove(code);
             ServerListener.codeIp.remove(code);
             group.sendMessage(buildRespond("confirm-ip-success", id));
-            return;
-        }
-        if (label.equals(EXECUTE)) {
+        } else if (label.equals(EXECUTE)) {
             if (!WhitelistBot.admins.contains(sender.getId())) {
                 group.sendMessage(buildRespond("not-admin", id));
                 return;
