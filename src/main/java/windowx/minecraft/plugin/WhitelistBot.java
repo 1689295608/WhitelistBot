@@ -24,7 +24,9 @@ import java.util.logging.Logger;
 
 public class WhitelistBot extends JavaPlugin {
     // 当前版本号
-    public static int version = 1;
+    public static int version = 2;
+
+    public static JavaPlugin plugin;
 
     public static Bot bot;
     public static Location loginLoc = null;
@@ -161,19 +163,17 @@ public class WhitelistBot extends JavaPlugin {
 
         this.saveDefaultConfig();
 
+        plugin = this;
+
         config = this.getConfig();
 
         int confVer = config.getInt("version");
-        if (confVer < 1) {
-            // 由于 Config Version 并不是最初就有的,
-            // 所以若插件版本过低, 我们就将无法判断当前的版本是多少
-            // 只能要求重新生成配置文件
+        if (confVer < version) {
             logger.warning("§4配置文件版本过低, 请删除配置文件重新生成!");
             logger.warning("§4另外, 请不要尝试修改配置文件中的 version 项, 否则会导致本插件无法使用等现象!");
             this.setEnabled(false);
             return;
         }
-        // 用于兼容旧版的配置文件, 牢记兼容后要修改配置文件的 version 项!
 
         dir = this.getDataFolder().getPath();
         wlfile = new File(dir, "whitelist.ini");
