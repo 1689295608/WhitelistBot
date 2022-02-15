@@ -13,6 +13,9 @@ active-settings:
   # 玩家昵称规范 (正则表达式)
   player-name: "[a-zA-Z0-9_]{3,14}"
 
+  # 登录超时时间 (单位: 秒)
+  login-timeout: 60
+
   # 群聊命令
   commands:
     # 群命令前缀
@@ -104,7 +107,7 @@ active-settings:
     banned-qq: "[mirai:at:%d] 您已被拉黑，无法使用命令!"
     request-whitelist-usage: "[mirai:at:%d] 语法: %s%s <您的游戏昵称>"
     already-bound: "[mirai:at:%d] 一个 QQ 只能绑定一个账号!"
-    name-already-bound: "[mirai:at:%d] 该账号已被绑定!"
+    name-already-bound: "[mirai:at:%d] 玩家 %s 已被绑定!"
     request-whitelist-success: "[mirai:at:%d] 成功申请白名单!"
     not-bound: "[mirai:at:%d] 你还没有绑定过账号!"
     success-unbind: "[mirai:at:%d] 解除绑定成功!"
@@ -117,4 +120,4 @@ active-settings:
     not-admin: "[mirai:at:%d] 你没有足够的权限进行该操作!"
 
 # !!! 请不要修改这个项目的值 !!!
-version: 1
+version: 2
