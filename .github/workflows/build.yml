@@ -21,10 +21,15 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+        
     - name: Build with Maven
       run: mvn -B package --file pom.xml
     - uses: "marvinpinto/action-automatic-releases@latest"
-      name: Push to Repository
+    
+    - name: Rename File
+      run: mv WhitelistBot-1.0-SNAPSHOT.jar WhitelistBot.jar
+    
+    - name: Push to Repository
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         prerelease: true
