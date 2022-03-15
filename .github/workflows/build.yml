@@ -26,7 +26,7 @@ jobs:
       run: |
         mvn -B package --file pom.xml
         cd target
-        mv WhitelistBot-1.0-SNAPSHOT.jar
+        mv WhitelistBot-1.0-SNAPSHOT.jar WhitelistBot.jar
       
     - name: Push to Repository
       uses: "marvinpinto/action-automatic-releases@latest"
