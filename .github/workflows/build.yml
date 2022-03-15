@@ -27,8 +27,8 @@ jobs:
         mvn -B package --file pom.xml
         mv WhitelistBot-1.0-SNAPSHOT.jar WhitelistBot.jar
       
-    - uses: "marvinpinto/action-automatic-releases@latest"
     - name: Push to Repository
+      uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         prerelease: true
