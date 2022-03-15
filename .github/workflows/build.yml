@@ -25,7 +25,8 @@ jobs:
     - name: Build with Maven
       run: |
         mvn -B package --file pom.xml
-        ls
+        cd target
+        mv WhitelistBot-1.0-SNAPSHOT.jar
       
     - name: Push to Repository
       uses: "marvinpinto/action-automatic-releases@latest"
